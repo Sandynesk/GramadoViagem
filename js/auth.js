@@ -14,7 +14,9 @@ async function signUp(email, password, name) {
   });
 
   if (error) throw error;
-  return data;
+  // O perfil será criado automaticamente via Trigger no Postgres (SQL)
+  // usando o display_name passado no metadata.
+  return { user: data.user, error: null };
 }
 
 /**
