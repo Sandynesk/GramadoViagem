@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gramado & Canela · Planner de Viagem</title>
+  <meta name="description" content="Planeje sua viagem para Gramado e Canela com roteiro premium, Prime Gourmet e controle de gastos.">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="header-top-row">
+      <div>
+        <div class="header-badge" data-i18n="header.badge">Serra Gaúcha · Roteiro Premium · Para Eu e minha amada</div>
+        <h1 data-i18n="header.title">Gramado &amp; <em>Canela</em></h1>
+        <p data-i18n="header.subtitle">Nosso planejamento · com Prime Gourmet</p>
+      </div>
+      <div class="header-actions">
+        <div class="user-area" id="user-area">
+          <span class="user-name"></span>
+          <button class="btn-header" id="logout-btn" data-i18n="auth.logout">Sair</button>
+        </div>
+        <button class="btn-header" id="lang-toggle" data-i18n="lang.toggle">🇺🇸 EN</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- WIDGETS BAR -->
+<div class="widgets-bar">
+  <div class="widgets-inner">
+    <div class="widget">
+      <div class="widget-label" data-i18n="widget.total.label">Total Estimado</div>
+      <div class="widget-value" id="w-total">R$ 0,00</div>
+      <div class="widget-sub" data-i18n="widget.total.sub">itens selecionados</div>
+    </div>
+    <div class="widget">
+      <div class="widget-label" data-i18n="widget.economia.label">Economia Prime Gourmet</div>
+      <div class="widget-value economia" id="w-economia">R$ 0,00</div>
+      <div class="widget-sub" data-i18n="widget.economia.sub">você economiza com o benefício</div>
+    </div>
+    <div class="widget">
+      <div class="widget-label" data-i18n="widget.dias.label">Dias para a Viagem</div>
+      <div class="widget-value countdown" id="w-dias">— dias</div>
+      <div class="widget-sub" id="w-data-label" data-i18n="widget.dias.sub">data a confirmar</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main>
+
+  <!-- SEARCH & VIEW TOGGLE -->
+  <div class="search-container">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="search-input" placeholder="Buscar experiências (ex: Natal Luz, Fondue...)" data-i18n-placeholder="search.placeholder">
+    </div>
+    <div class="view-toggle">
+      <button class="view-btn active" id="view-cards" title="Vista em Cards" data-i18n-title="view.cards">🎴</button>
+      <button class="view-btn" id="view-table" title="Vista em Tabela" data-i18n-title="view.table">📋</button>
+    </div>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filters">
+    <span class="filters-label" data-i18n="filter.label">Filtrar</span>
+    <button class="filter-btn active" data-filter="todos" data-i18n="filter.todos">Todos</button>
+    <button class="filter-btn" data-filter="passeio" data-i18n="filter.passeios">🌲 Passeios</button>
+    <button class="filter-btn" data-filter="gastro" data-i18n="filter.gastro">🍽 Gastronomia</button>
+    <button class="filter-btn" data-filter="evento" data-i18n="filter.eventos">🎪 Eventos</button>
+    <button class="filter-btn" data-filter="prime" data-i18n="filter.prime">⭐ Prime Gourmet</button>
+  </div>
+
+  <!-- SECTION: PASSEIOS -->
+  <div class="section-title" id="sec-passeios" data-i18n="section.passeios">Passeios &amp; Atrações</div>
+  <div class="cards-grid" id="grid-passeios"></div>
+
+  <!-- SECTION: GASTRO -->
+  <div class="section-title" id="sec-gastro" data-i18n="section.gastro">Gastronomia</div>
+  <div class="cards-grid" id="grid-gastro"></div>
+
+  <!-- SECTION: EVENTOS -->
+  <div class="section-title" id="sec-evento" data-i18n="section.eventos">Eventos Especiais</div>
+  <div class="cards-grid" id="grid-evento"></div>
+
+  <!-- TABLE VIEW (Hidden by default) -->
+  <div id="table-view-container" style="display: none;">
+    <div class="section-title" data-i18n="section.table">Lista de Experiências Disponíveis</div>
+    <div class="table-wrapper">
+      <table class="exp-table">
+        <thead>
+          <tr>
+            <th data-i18n="table.experiencia">Experiência</th>
+            <th data-i18n="table.cidade">Cidade</th>
+            <th class="hide-mobile" data-i18n="table.categoria">Categoria</th>
+            <th data-i18n="table.preco">Preço</th>
+            <th data-i18n="table.acoes">Ações</th>
+          </tr>
+        </thead>
+        <tbody id="table-body">
+          <!-- Populated by JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary">
+    <div class="summary-title" data-i18n="summary.title">✦ Resumo da Viagem</div>
+    <div class="summary-grid">
+      <div class="summary-item">
+        <div class="summary-item-label" data-i18n="summary.total">Gastos totais (após descontos)</div>
+        <div class="summary-item-value gold" id="s-total">R$ 0,00</div>
+      </div>
+      <div class="summary-item">
+        <div class="summary-item-label" data-i18n="summary.economia">Economia gerada</div>
+        <div class="summary-item-value green" id="s-economia">R$ 0,00</div>
+      </div>
+      <div class="summary-divider"></div>
+      <div class="summary-item">
+        <div class="summary-item-label" data-i18n="summary.itens">Itens selecionados</div>
+        <div class="summary-item-value" id="s-itens">0</div>
+      </div>
+      <div class="summary-item">
+        <div class="summary-item-label" data-i18n="summary.prime">Custo com Prime ativo em</div>
+        <div class="summary-item-value" id="s-prime-count">0 itens</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- Supabase CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- App Modules -->
+<script type="module" src="js/app.js"></script>
+
+</body>
+</html>
