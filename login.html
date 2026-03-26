@@ -112,6 +112,22 @@
     applyTranslations();
   }
 
+  const supabaseErrorTranslations = {
+    'Invalid login credentials': 'E-mail ou senha incorretos.',
+    'User already registered': 'Este e-mail já está cadastrado.',
+    'Password should be at least 6 characters': 'A senha deve ter pelo menos 6 caracteres.'
+  };
+
+  function translateError(errorMsg) {
+    if (!errorMsg) return t('auth.error.generic');
+    for (const [key, value] of Object.entries(supabaseErrorTranslations)) {
+      if (errorMsg.includes(key)) {
+        return value;
+      }
+    }
+    return errorMsg;
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -121,6 +137,8 @@
     const errorEl = document.getElementById('auth-error');
     const successEl = document.getElementById('auth-success');
     const submitBtn = document.getElementById('auth-submit');
+    const loginForm = document.getElementById('login-form');
+    const loginSwitch = document.querySelector('.login-switch');
 
     errorEl.style.display = 'none';
     successEl.style.display = 'none';
@@ -137,32 +155,32 @@
       return;
     }
 
+    const originalSubmitText = submitBtn.textContent;
     submitBtn.disabled = true;
+    submitBtn.textContent = 'Carregando...';
 
     try {
       if (isSignUp) {
         // O perfil será criado automaticamente via Trigger no Postgres (SQL)
-        const { user, session } = await signUp(email, password, name);
+        await signUp(email, password, name);
 
-        successEl.textContent = t('auth.success.signup');
+        successEl.textContent = 'Conta criada com sucesso! Enviamos um link de confirmação para o seu e-mail. Verifique sua caixa de entrada (e o spam) para ativar sua conta antes de fazer login.';
         successEl.style.display = 'block';
-
-        // Se o Supabase confirmar automaticamente (sem email confirm), redirecionar
-        if (session) {
-          setTimeout(() => {
-            window.location.replace('planner.html');
-          }, 1000);
-        }
+        
+        // Ocultar formulário após sucesso no cadastro
+        loginForm.style.display = 'none';
+        loginSwitch.style.display = 'none';
       } else {
         await signIn(email, password);
         window.location.replace('planner.html');
       }
     } catch (err) {
       console.error('Auth error:', err);
-      errorEl.textContent = err.message || t('auth.error.generic');
+      errorEl.textContent = translateError(err.message);
       errorEl.style.display = 'block';
     } finally {
       submitBtn.disabled = false;
+      submitBtn.textContent = originalSubmitText;
     }
   }
 
