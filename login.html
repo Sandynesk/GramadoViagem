@@ -141,29 +141,21 @@
 
     try {
       if (isSignUp) {
-        const data = await signUp(email, password, name);
-
-        // Salvar perfil inicial
-        if (data.user) {
-          try {
-            await saveProfile(data.user.id, { displayName: name, preferences: {} });
-          } catch (profileErr) {
-            console.warn('Erro ao salvar perfil:', profileErr);
-          }
-        }
+        // O perfil será criado automaticamente via Trigger no Postgres (SQL)
+        const { user, session } = await signUp(email, password, name);
 
         successEl.textContent = t('auth.success.signup');
         successEl.style.display = 'block';
 
         // Se o Supabase confirmar automaticamente (sem email confirm), redirecionar
-        if (data.session) {
+        if (session) {
           setTimeout(() => {
-            window.location.replace('index.html');
+            window.location.replace('planner.html');
           }, 1000);
         }
       } else {
         await signIn(email, password);
-        window.location.replace('index.html');
+        window.location.replace('planner.html');
       }
     } catch (err) {
       console.error('Auth error:', err);
