@@ -1,9 +1,8 @@
 // ── Main Application ────────────────────────────────────────────────────────
-import { TRIP_DATE } from './config.js';
 import { places } from './data.js';
 import { t, getLang, toggleLanguage, applyTranslations } from './i18n.js';
 import { getUser, signOut, onAuthStateChange } from './auth.js';
-import { saveSelections, loadSelections } from './db.js';
+import { saveSelections, loadSelections, saveProfile, loadProfile } from './db.js';
 import { protectRoute } from './router.js';
 
 // ── STATE ───────────────────────────────────────────────────────────────────
@@ -12,6 +11,7 @@ places.forEach(p => { state[p.id] = { selected: false, prime: false }; });
 
 let currentUser = null;
 let saveTimeout = null;
+let userTripDate = null;
 
 // ── INIT ────────────────────────────────────────────────────────────────────
 async function init() {
@@ -22,6 +22,17 @@ async function init() {
   // Obter usuário
   currentUser = await getUser();
   updateUserUI();
+
+  // Load profile to get date
+  if (currentUser) {
+    try {
+      const profile = await loadProfile(currentUser.id);
+      if (profile && profile.preferences && profile.preferences.tripDate) {
+        // use local coordinates so YYYY-MM-DD string parses correctly to that day in local time or add T00:00:00
+        userTripDate = new Date(profile.preferences.tripDate + 'T00:00:00');
+      }
+    } catch(err) { console.warn('Erro ao carregar perfil', err); }
+  }
 
   // Carregar seleções do banco
   if (currentUser) {
@@ -50,6 +61,9 @@ async function init() {
   setupLogout();
   recalc();
   applyTranslations();
+
+  // Configurar date picker
+  setupDateEdit();
 
   // Countdown
   countdown();
@@ -385,12 +399,19 @@ function animateValue(id, newVal) {
   el.classList.add('pulse');
 }
 
-// ── COUNTDOWN ───────────────────────────────────────────────────────────────
+// ── COUNTDOWN E DATE EDIT ───────────────────────────────────────────────────────────────
 function countdown() {
-  const now = new Date();
-  const diff = TRIP_DATE - now;
   const el = document.getElementById('w-dias');
   const labelEl = document.getElementById('w-data-label');
+
+  if (!userTripDate) {
+    el.textContent = t('widget.dias.inserir');
+    labelEl.textContent = t('widget.dias.selecionar');
+    return;
+  }
+
+  const now = new Date();
+  const diff = userTripDate - now;
 
   if (diff <= 0) {
     el.textContent = t('countdown.hoje');
@@ -399,8 +420,43 @@ function countdown() {
   }
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
   el.textContent = `${days} ${t('dias')}`;
-  labelEl.textContent = TRIP_DATE.toLocaleDateString(getLang() === 'pt' ? 'pt-BR' : 'en-US', {
+  labelEl.textContent = userTripDate.toLocaleDateString(getLang() === 'pt' ? 'pt-BR' : 'en-US', {
     day: '2-digit', month: 'long', year: 'numeric'
+  });
+}
+
+function setupDateEdit() {
+  const btn = document.getElementById('edit-date-btn');
+  const input = document.getElementById('trip-date-input');
+  if(!btn || !input) return;
+
+  btn.addEventListener('click', () => {
+    input.showPicker(); // native HTML5 date picker
+  });
+
+  const diasVal = document.getElementById('w-dias');
+  if (diasVal) {
+    diasVal.style.cursor = 'pointer';
+    diasVal.addEventListener('click', () => {
+      input.showPicker();
+    });
+  }
+
+  input.addEventListener('change', async (e) => {
+    if(!e.target.value) return;
+    userTripDate = new Date(e.target.value + 'T00:00:00');
+    countdown();
+
+    if(currentUser) {
+      try {
+        const profile = await loadProfile(currentUser.id) || { preferences: {} };
+        profile.preferences = profile.preferences || {};
+        profile.preferences.tripDate = e.target.value;
+        await saveProfile(currentUser.id, profile);
+      } catch(err) {
+        console.warn('Erro ao salvar data da viagem:', err);
+      }
+    }
   });
 }
 

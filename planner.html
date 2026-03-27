@@ -25,7 +25,9 @@
           <button class="btn-header" id="logout-btn" data-i18n="auth.logout">Sair</button>
         </div>
         <button class="btn-header" id="lang-toggle" data-i18n="lang.toggle">🇺🇸 EN</button>
+        <a href="cronograma.html" class="btn-header" data-i18n="nav.cronograma">🗓 Cronograma</a>
       </div>
+
     </div>
   </div>
 </header>
@@ -44,9 +46,13 @@
       <div class="widget-sub" data-i18n="widget.economia.sub">você economiza com o benefício</div>
     </div>
     <div class="widget">
-      <div class="widget-label" data-i18n="widget.dias.label">Dias para a Viagem</div>
+      <div class="widget-label" style="display: flex; justify-content: space-between; align-items: center;">
+        <span data-i18n="widget.dias.label">Dias para a Viagem</span>
+        <button id="edit-date-btn" class="edit-date-btn" title="Editar Data" data-i18n-title="widget.dias.editar">✏️</button>
+      </div>
       <div class="widget-value countdown" id="w-dias">— dias</div>
       <div class="widget-sub" id="w-data-label" data-i18n="widget.dias.sub">data a confirmar</div>
+      <input type="date" id="trip-date-input" style="position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none;">
     </div>
   </div>
 </div>

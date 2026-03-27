@@ -6,6 +6,6 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ── App Constants ───────────────────────────────────────────────────────────
-const TRIP_DATE = new Date('2026-06-19T00:00:00');
+// DEPRECATED: const TRIP_DATE = new Date('2026-06-19T00:00:00'); - Now dynamic per user.
 
-export { supabase, TRIP_DATE, SUPABASE_URL, SUPABASE_KEY };
+export { supabase, SUPABASE_URL, SUPABASE_KEY };

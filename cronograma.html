@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cronograma · Gramado & Canela</title>
+  <meta name="description" content="Monte o cronograma dia a dia da sua viagem para Gramado e Canela.">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="header-top-row">
+      <div>
+        <div class="header-badge" data-i18n="header.badge">Serra Gaúcha · Roteiro Premium · Para Eu e minha amada</div>
+        <h1><a href="planner.html" style="color:inherit;text-decoration:none;">Gramado &amp; <em>Canela</em></a></h1>
+        <p>Cronograma · <span id="schedule-subtitle" style="color:var(--dourado-light)">Sua Viagem</span></p>
+      </div>
+      <div class="header-actions">
+        <div class="user-area" id="user-area">
+          <span class="user-name"></span>
+          <button class="btn-header" id="logout-btn" data-i18n="auth.logout">Sair</button>
+        </div>
+        <a href="planner.html" class="btn-header" data-i18n="nav.planner">🗺 Planner</a>
+        <button class="btn-header" id="lang-toggle" data-i18n="lang.toggle">🇺🇸 EN</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- SCHEDULE CONFIG BAR -->
+<div class="schedule-config-bar">
+  <div class="schedule-config-inner">
+    <form class="schedule-config-form" id="config-form">
+      <div class="config-field">
+        <label for="config-destination" data-i18n="schedule.config.destination">Destino</label>
+        <input type="text" id="config-destination" placeholder="ex: Gramado" autocomplete="off">
+      </div>
+      <div class="config-field">
+        <label for="config-date" data-i18n="schedule.config.startDate">Data de início</label>
+        <input type="date" id="config-date">
+      </div>
+      <div class="config-field config-field-narrow">
+        <label for="config-days" data-i18n="schedule.config.days">Dias</label>
+        <input type="number" id="config-days" min="1" max="30" value="3" placeholder="3">
+      </div>
+      <button type="submit" class="btn-generate" data-i18n="schedule.config.generate">
+        ✦ Gerar Cronograma
+      </button>
+    </form>
+  </div>
+</div>
+
+
+
+<!-- VIEW CONTROLS -->
+<div class="schedule-controls">
+  <div class="schedule-controls-inner">
+    <!-- View toggle -->
+    <div class="view-tabs">
+      <button class="view-tab active" id="view-overview" data-i18n="schedule.view.overview">📅 Visão Geral</button>
+      <button class="view-tab" id="view-day" data-i18n="schedule.view.dayByDay">🗓 Dia a Dia</button>
+    </div>
+
+    <!-- Day navigation (only visible in day-by-day view) -->
+    <div class="day-nav" id="day-nav" style="display:none">
+      <button class="day-nav-btn" id="day-nav-prev">‹</button>
+      <span class="day-nav-label" id="day-nav-label">Dia 1</span>
+      <button class="day-nav-btn" id="day-nav-next">›</button>
+    </div>
+
+    <!-- Clear schedule button -->
+    <button type="button" class="btn-clear-schedule" id="btn-clear-schedule" data-i18n="schedule.clear.btn">🧨 Limpar</button>
+  </div>
+</div>
+
+<!-- TIMELINE -->
+<div class="timeline-area">
+  <div class="timeline-container" id="timeline-container">
+    <!-- Populated by schedule.js -->
+    <div class="timeline-empty-state">
+      <div class="timeline-empty-icon">🗓</div>
+      <div class="timeline-empty-title" data-i18n="schedule.setup.title">Configure sua viagem</div>
+      <div class="timeline-empty-sub" data-i18n="schedule.setup.sub">Preencha os dados acima e clique em "Gerar Cronograma" para criar seu roteiro.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     MODAL — ADD / EDIT EVENT
+     ════════════════════════════════════════════ -->
+<div class="modal-overlay" id="event-modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 class="modal-title" id="modal-title" data-i18n="schedule.event.add">Novo Evento</h3>
+      <button class="modal-close" id="modal-close-btn" aria-label="Fechar">✕</button>
+    </div>
+
+    <form class="modal-form" id="event-form" autocomplete="off">
+      <!-- Title -->
+      <div class="modal-field">
+        <label for="event-title-input" data-i18n="schedule.event.title">Título *</label>
+        <input type="text" id="event-title-input" placeholder="ex: Almoço no Café Colonial" required>
+      </div>
+
+      <!-- Category -->
+      <div class="modal-field">
+        <label for="event-category-select" data-i18n="schedule.event.category">Categoria</label>
+        <select id="event-category-select"></select>
+      </div>
+
+      <!-- Time row -->
+      <div class="modal-row">
+        <div class="modal-field">
+          <label for="event-start-input" data-i18n="schedule.event.startTime">Início</label>
+          <input type="time" id="event-start-input">
+        </div>
+        <div class="modal-field">
+          <label for="event-end-input" data-i18n="schedule.event.endTime">Fim</label>
+          <input type="time" id="event-end-input">
+        </div>
+      </div>
+
+      <!-- Location -->
+      <div class="modal-field">
+        <label for="event-location-input" data-i18n="schedule.event.location">Localização</label>
+        <input type="text" id="event-location-input" placeholder="ex: Rua Coberta, Gramado">
+      </div>
+
+      <!-- Notes -->
+      <div class="modal-field">
+        <label for="event-notes-input" data-i18n="schedule.event.notes">Observações</label>
+        <textarea id="event-notes-input" rows="3" placeholder="Reservas, dicas, preços..."></textarea>
+      </div>
+
+      <!-- Actions -->
+      <div class="modal-actions">
+        <button type="button" class="modal-btn-delete" id="modal-delete-btn" style="display:none" data-i18n="schedule.event.delete">
+          🗑 Excluir
+        </button>
+        <div class="modal-actions-right">
+          <button type="button" class="modal-btn-cancel" id="modal-cancel-btn" data-i18n="schedule.event.cancel">Cancelar</button>
+          <button type="submit" class="modal-btn-save" data-i18n="schedule.event.save">Salvar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     MODAL — EVENT DETAIL
+     ════════════════════════════════════════════ -->
+<div class="modal-overlay" id="detail-modal">
+  <div class="modal-box modal-box-detail">
+    <div class="modal-header">
+      <div class="detail-header-left">
+        <div class="detail-icon" id="detail-icon">📌</div>
+        <div>
+          <div class="detail-category" id="detail-category">Categoria</div>
+          <h3 class="detail-title" id="detail-title">Título do Evento</h3>
+        </div>
+      </div>
+      <button class="modal-close" id="detail-modal-close" aria-label="Fechar">✕</button>
+    </div>
+
+    <div class="detail-body">
+      <div class="detail-row">
+        <span class="detail-label" data-i18n="schedule.event.startTime">Horário</span>
+        <span class="detail-value" id="detail-time">—</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label" data-i18n="schedule.event.location">Localização</span>
+        <span class="detail-value" id="detail-location">—</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label" data-i18n="schedule.event.notes">Observações</span>
+        <span class="detail-value" id="detail-notes">—</span>
+      </div>
+    </div>
+
+    <div class="detail-footer" style="justify-content: space-between;">
+      <button class="modal-btn-delete" id="detail-delete-btn" data-i18n="schedule.event.delete" style="display:flex;">🗑 Excluir</button>
+      <button class="modal-btn-save" id="detail-edit-btn" data-i18n="schedule.event.edit">✏ Editar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     MODAL — IMPORT FROM PLANNER
+     ════════════════════════════════════════════ -->
+<div class="modal-overlay" id="import-modal">
+  <div class="modal-box modal-box-import">
+    <div class="modal-header">
+      <h3 class="modal-title" data-i18n="schedule.import.title">Importar do Planner</h3>
+      <button class="modal-close" id="import-close-btn" aria-label="Fechar">✕</button>
+    </div>
+
+    <div class="import-modal-body">
+      <p class="import-modal-desc" data-i18n="schedule.import.desc">
+        Escolha em qual dia cada item selecionado no Planner deve aparecer. Itens marcados como "Não importar" serão ignorados.
+      </p>
+      <div id="import-list" class="import-list">
+        <!-- Populated by JS -->
+      </div>
+      <p id="import-msg" class="import-empty-msg" style="display:none"></p>
+    </div>
+
+    <div class="import-modal-footer">
+      <button type="button" class="modal-btn-cancel" id="import-cancel-btn" data-i18n="schedule.event.cancel">Cancelar</button>
+      <button type="button" class="modal-btn-save" id="import-confirm-btn" data-i18n="schedule.import.confirm">✦ Importar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     MODAL — IMPORT PROMPT
+     ════════════════════════════════════════════ -->
+<div class="modal-overlay" id="prompt-modal">
+  <div class="modal-box modal-box-detail">
+    <div class="modal-header">
+      <div class="detail-header-left">
+        <div class="detail-icon" style="background:#f1f4f1; color: var(--verde-light)">📋</div>
+        <div>
+          <h3 class="detail-title" data-i18n="schedule.prompt.title">Importar do Planner?</h3>
+        </div>
+      </div>
+      <button class="modal-close" id="prompt-close-btn" aria-label="Fechar">✕</button>
+    </div>
+    <div class="detail-body">
+      <p style="font-size: 14px; color: var(--texto); line-height: 1.5; margin-bottom: 24px;" data-i18n="schedule.prompt.desc">
+        Notamos que você tem novos itens marcados como "Vou!" no Planner. Deseja organizá-los em seu cronograma agora?
+      </p>
+    </div>
+    <div class="detail-footer" style="justify-content: flex-end; gap: 10px; display: flex;">
+      <button class="modal-btn-cancel" id="prompt-no-btn" data-i18n="schedule.prompt.no">Não, obrigado</button>
+      <button class="modal-btn-save" id="prompt-yes-btn" data-i18n="schedule.prompt.yes">Sim, importar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     MODAL — CLEAR CONFIRM
+     ════════════════════════════════════════════ -->
+<div class="modal-overlay" id="clear-modal">
+  <div class="modal-box modal-box-detail">
+    <div class="modal-header">
+      <div class="detail-header-left">
+        <div class="detail-icon" style="background:rgba(180, 50, 50, 0.1); color: #c94a4a;">🧨</div>
+        <div>
+          <h3 class="detail-title" data-i18n="schedule.clear.title">Limpar Cronograma?</h3>
+        </div>
+      </div>
+      <button class="modal-close" id="clear-close-btn" aria-label="Fechar">✕</button>
+    </div>
+    <div class="detail-body">
+      <p style="font-size: 14px; color: var(--texto); line-height: 1.5; margin-bottom: 24px;" data-i18n="schedule.clear.confirm">
+        Tem certeza que deseja apagar todo o cronograma? Esta ação não pode ser desfeita.
+      </p>
+    </div>
+    <div class="detail-footer" style="justify-content: flex-end; gap: 10px; display: flex;">
+      <button class="modal-btn-cancel" id="clear-no-btn" data-i18n="schedule.clear.no">Cancelar</button>
+      <button class="modal-btn-delete" id="clear-yes-btn" data-i18n="schedule.clear.yes" style="display:flex;">Sim, Apagar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Supabase CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- Schedule module bootstrap -->
+<script type="module">
+  import { initSchedule } from './js/schedule.js';
+  document.addEventListener('DOMContentLoaded', initSchedule);
+</script>
+
+</body>
+</html>

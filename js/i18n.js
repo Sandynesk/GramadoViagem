@@ -30,6 +30,9 @@ const translations = {
     'widget.economia.sub': 'você economiza com o benefício',
     'widget.dias.label': 'Dias para a Viagem',
     'widget.dias.sub': 'data a confirmar',
+    'widget.dias.inserir': 'Inserir Data',
+    'widget.dias.editar': 'Editar Data',
+    'widget.dias.selecionar': 'Selecione a data da viagem',
 
     // Search & View
     'search.placeholder': 'Buscar experiências (ex: Natal Luz, Fondue...)',
@@ -101,6 +104,62 @@ const translations = {
     'dias': 'dias',
     'item': 'item',
     'itens': 'itens',
+
+    // Nav
+    'nav.planner': '🗺 Planner',
+    'nav.cronograma': '🗓 Cronograma',
+
+    // Schedule — config
+    'schedule.config.destination': 'Destino',
+    'schedule.config.startDate': 'Data de início',
+    'schedule.config.days': 'Dias',
+    'schedule.config.generate': '✦ Gerar Cronograma',
+
+    // Schedule — views
+    'schedule.view.overview': '📅 Visão Geral',
+    'schedule.view.dayByDay': '🗓 Dia a Dia',
+
+    // Schedule — modals
+    'schedule.event.add': 'Adicionar Evento',
+    'schedule.event.edit': 'Editar Evento',
+    'schedule.event.save': 'Salvar Evento',
+    'schedule.event.title': 'Título (*)',
+    'schedule.event.cat': 'Categoria (*)',
+    'schedule.event.startTime': 'Horário Início',
+    'schedule.event.endTime': 'Horário Fim',
+    'schedule.event.location': 'Localização',
+    'schedule.event.notes': 'Observações',
+    'schedule.event.cancel': 'Cancelar',
+    'schedule.event.delete': 'Excluir',
+    'schedule.event.noTime': 'A definir',
+
+    // Schedule — misc
+    'schedule.empty': 'Nenhum evento. Clique em + para adicionar.',
+    'schedule.conflict': '⚠ Conflito de horário',
+    'schedule.setup.title': 'Configure sua viagem',
+    'schedule.setup.sub': 'Preencha os dados acima e clique em "Gerar Cronograma" para criar seu roteiro.',
+    'schedule.clear.btn': '🧨 Limpar Cronograma',
+    'schedule.clear.title': 'Limpar Cronograma?',
+    'schedule.clear.confirm': 'Tem certeza que deseja apagar todo o cronograma? Esta ação não pode ser desfeita.',
+    'schedule.clear.no': 'Cancelar',
+    'schedule.clear.yes': 'Sim, Apagar',
+    'schedule.event.deleteConfirm': 'Tem certeza que deseja excluir este evento?',
+
+    // Schedule — import
+    'schedule.import.btn': '📋 Importar do Planner',
+    'schedule.import.title': 'Importar itens do Planner',
+    'schedule.import.desc': 'Escolha em qual dia cada item selecionado no Planner deve aparecer.',
+    'schedule.import.confirm': '✦ Importar',
+    'schedule.import.empty': 'Nenhum item selecionado no Planner. Vá ao Planner e marque "Vou!" nos itens desejados.',
+    'schedule.import.skip': 'Não importar',
+    'schedule.import.noConfig': 'Configure o cronograma primeiro (defina o número de dias e clique em Gerar).',
+    'schedule.import.loading': 'Carregando...',
+
+    // Schedule — prompt
+    'schedule.prompt.title': 'Importar do Planner?',
+    'schedule.prompt.desc': 'Notamos que você tem novos itens marcados como "Vou!" no Planner. Deseja organizá-los em seu cronograma agora?',
+    'schedule.prompt.no': 'Não, obrigado',
+    'schedule.prompt.yes': 'Sim, importar',
   },
 
   en: {
@@ -132,6 +191,9 @@ const translations = {
     'widget.economia.sub': 'you save with the benefit',
     'widget.dias.label': 'Days Until Trip',
     'widget.dias.sub': 'date to be confirmed',
+    'widget.dias.inserir': 'Add Date',
+    'widget.dias.editar': 'Edit Date',
+    'widget.dias.selecionar': 'Select trip date',
 
     // Search & View
     'search.placeholder': 'Search experiences (e.g.: Natal Luz, Fondue...)',
@@ -203,6 +265,62 @@ const translations = {
     'dias': 'days',
     'item': 'item',
     'itens': 'items',
+
+    // Nav
+    'nav.planner': '🗺 Planner',
+    'nav.cronograma': '🗓 Schedule',
+
+    // Schedule — config
+    'schedule.config.destination': 'Destination',
+    'schedule.config.startDate': 'Start date',
+    'schedule.config.days': 'Days',
+    'schedule.config.generate': '✦ Generate Schedule',
+
+    // Schedule — views
+    'schedule.view.overview': '📅 Overview',
+    'schedule.view.dayByDay': '🗓 Day by Day',
+
+    // Schedule — modals
+    'schedule.event.add': 'Add Event',
+    'schedule.event.edit': 'Edit Event',
+    'schedule.event.save': 'Save Event',
+    'schedule.event.title': 'Title (*)',
+    'schedule.event.cat': 'Category (*)',
+    'schedule.event.startTime': 'Start Time',
+    'schedule.event.endTime': 'End Time',
+    'schedule.event.location': 'Location',
+    'schedule.event.notes': 'Notes',
+    'schedule.event.cancel': 'Cancel',
+    'schedule.event.delete': 'Delete',
+    'schedule.event.noTime': 'To be determined',
+
+    // Schedule — misc
+    'schedule.empty': 'No events. Click + to add one.',
+    'schedule.conflict': '⚠ Time conflict',
+    'schedule.setup.title': 'Configure your trip',
+    'schedule.setup.sub': 'Fill in the details above and click "Generate Schedule" to build your itinerary.',
+    'schedule.clear.btn': '🧨 Clear Schedule',
+    'schedule.clear.title': 'Clear Schedule?',
+    'schedule.clear.confirm': 'Are you sure you want to clear the entire schedule? This action cannot be undone.',
+    'schedule.clear.no': 'Cancel',
+    'schedule.clear.yes': 'Yes, Clear',
+    'schedule.event.deleteConfirm': 'Are you sure you want to delete this event?',
+
+    // Schedule — import
+    'schedule.import.btn': '📋 Import from Planner',
+    'schedule.import.title': 'Import items from Planner',
+    'schedule.import.desc': 'Choose which day each item selected in the Planner should appear on.',
+    'schedule.import.confirm': '✦ Import',
+    'schedule.import.empty': 'No items selected in the Planner. Go to the Planner and check "I\'m in!" on the desired items.',
+    'schedule.import.skip': 'Skip',
+    'schedule.import.noConfig': 'Configure the schedule first (set the number of days and click Generate).',
+    'schedule.import.loading': 'Loading...',
+
+    // Schedule — prompt
+    'schedule.prompt.title': 'Import from Planner?',
+    'schedule.prompt.desc': 'We noticed you have new items marked as "I\'m in!" in the Planner. Do you want to organize them in your schedule now?',
+    'schedule.prompt.no': 'No, thanks',
+    'schedule.prompt.yes': 'Yes, import',
   }
 };
 

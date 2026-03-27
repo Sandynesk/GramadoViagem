@@ -2,7 +2,8 @@
 import { getSession } from './auth.js';
 
 // Páginas que NÃO precisam de autenticação
-const PUBLIC_PAGES = ['login.html', 'index.html', '/'];
+const PUBLIC_PAGES = ['login.html', 'index.html', 'confirm.html', '/'];
+
 
 /**
  * Verifica se a página atual é pública

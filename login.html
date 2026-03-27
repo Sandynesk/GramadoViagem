@@ -96,17 +96,17 @@
     const subtitle = document.getElementById('login-subtitle');
 
     if (isSignUp) {
-      submitBtn.textContent = t('auth.signup');
-      switchText.textContent = t('auth.hasAccount');
-      switchLink.textContent = t('auth.loginHere');
+      submitBtn.setAttribute('data-i18n', 'auth.signup');
+      switchText.setAttribute('data-i18n', 'auth.hasAccount');
+      switchLink.setAttribute('data-i18n', 'auth.loginHere');
       nameGroup.style.display = 'flex';
-      subtitle.textContent = t('auth.welcome');
+      subtitle.setAttribute('data-i18n', 'auth.welcome');
     } else {
-      submitBtn.textContent = t('auth.login');
-      switchText.textContent = t('auth.noAccount');
-      switchLink.textContent = t('auth.createHere');
+      submitBtn.setAttribute('data-i18n', 'auth.login');
+      switchText.setAttribute('data-i18n', 'auth.noAccount');
+      switchLink.setAttribute('data-i18n', 'auth.createHere');
       nameGroup.style.display = 'none';
-      subtitle.textContent = t('auth.welcomeSub');
+      subtitle.setAttribute('data-i18n', 'auth.welcomeSub');
     }
 
     applyTranslations();
