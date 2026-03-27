@@ -1,9 +1,8 @@
 // ── Route Protection ────────────────────────────────────────────────────────
-import { getSession } from './auth.js';
+import { getUser } from './auth.js';
 
 // Páginas que NÃO precisam de autenticação
 const PUBLIC_PAGES = ['login.html', 'index.html', 'confirm.html', '/'];
-
 
 /**
  * Verifica se a página atual é pública
@@ -21,9 +20,9 @@ function isPublicPage() {
 async function protectRoute() {
   if (isPublicPage()) return true;
 
-  const session = await getSession();
+  const user = await getUser();
 
-  if (!session) {
+  if (!user) {
     // Salvar a página de destino para redirecionar após login
     sessionStorage.setItem('gramado-redirect', window.location.href);
     window.location.replace('login.html');
@@ -38,9 +37,9 @@ async function protectRoute() {
  * Deve ser chamada na página de login e na index.html
  */
 async function redirectIfAuthenticated() {
-  const session = await getSession();
+  const user = await getUser();
 
-  if (session) {
+  if (user) {
     const redirect = sessionStorage.getItem('gramado-redirect') || 'planner.html';
     sessionStorage.removeItem('gramado-redirect');
     window.location.replace(redirect);
