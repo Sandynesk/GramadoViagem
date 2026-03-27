@@ -604,8 +604,25 @@ function populateConfigUI() {
 function updateUserUI() {
   const userArea = document.getElementById('user-area');
   if (!userArea || !currentUser) return;
-  const name = currentUser.user_metadata?.display_name || currentUser.email;
-  userArea.querySelector('.user-name').textContent = name;
+  const email = currentUser.email;
+  const name = currentUser.user_metadata?.display_name || email;
+  userArea.querySelector('.user-name').innerHTML = `<a href="perfil.html" style="color:inherit; text-decoration:none;" title="Meu Perfil">${name}</a>`;
+
+  const headerAvatar = document.getElementById('header-avatar');
+  if (headerAvatar) {
+    loadProfile(currentUser.id).then(profile => {
+      if (profile && profile.preferences && profile.preferences.avatar) {
+        headerAvatar.style.backgroundImage = `url(${profile.preferences.avatar})`;
+        headerAvatar.textContent = '';
+      } else {
+        headerAvatar.textContent = (name || email).substring(0, 2).toUpperCase();
+        headerAvatar.style.backgroundImage = 'none';
+      }
+    }).catch(() => {
+      headerAvatar.textContent = (name || email).substring(0, 2).toUpperCase();
+    });
+  }
+
   userArea.style.display = 'flex';
 }
 

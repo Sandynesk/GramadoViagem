@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu Perfil · Gramado & Canela</title>
+  <meta name="description" content="Edite seu perfil e preferências de viagem.">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="header-top-row">
+      <div>
+        <div class="header-badge" data-i18n="header.badge">Serra Gaúcha · Roteiro Premium</div>
+        <h1><a href="planner.html" style="color:inherit;text-decoration:none;">Gramado &amp; <em>Canela</em></a></h1>
+        <p>Configurações · <span style="color:var(--dourado-light)">Meu Perfil</span></p>
+      </div>
+      <div class="header-actions">
+        <div class="user-area" id="user-area" style="display: flex;">
+          <div class="header-avatar" id="header-avatar">--</div>
+          <span class="user-name"></span>
+          <button class="btn-header" id="logout-btn" data-i18n="auth.logout">Sair</button>
+        </div>
+        <a href="planner.html" class="btn-header" data-i18n="nav.planner">🗺 Planner</a>
+        <a href="cronograma.html" class="btn-header" data-i18n="nav.cronograma">🗓 Cronograma</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="profile-page">
+  <div class="profile-header">
+    <a href="planner.html" class="profile-back-btn" title="Voltar" style="text-decoration:none;">←</a>
+    <h2 class="profile-title" data-i18n="profile.title">Editar Perfil</h2>
+  </div>
+
+  <div class="profile-avatar-container">
+    <div class="profile-avatar" id="avatar-circle">
+      <span id="avatar-text">--</span>
+      <label class="profile-avatar-edit" for="prof-avatar" title="Mudar foto">📷</label>
+    </div>
+    <input type="file" id="prof-avatar" accept="image/*" style="display:none">
+    <div class="profile-avatar-hint" data-i18n="profile.avatar.pref">Preferencial: Quadrada, máx. 1MB</div>
+    <div class="profile-name-display" id="display-name">Carregando...</div>
+    <div class="profile-email-display" id="display-email">...</div>
+  </div>
+
+  <form id="profile-form">
+    <div class="profile-section">
+      <div class="profile-section-title" data-i18n="profile.section.account">Informações da Conta</div>
+      
+      <div class="profile-field">
+        <label for="prof-name" data-i18n="profile.name">Nome</label>
+        <input type="text" id="prof-name" class="profile-input" placeholder="Seu nome">
+      </div>
+      
+      <div class="profile-field">
+        <label for="prof-email" data-i18n="profile.email">E-mail</label>
+        <input type="email" id="prof-email" class="profile-input" readonly title="O e-mail não pode ser alterado por aqui.">
+      </div>
+
+      <div class="profile-field">
+        <label for="prof-date" data-i18n="profile.date">Data da Viagem</label>
+        <input type="date" id="prof-date" class="profile-input">
+      </div>
+    </div>
+
+    <div class="profile-section">
+      <div class="profile-section-title" data-i18n="profile.section.security">Segurança (Opcional)</div>
+      
+      <div class="profile-field">
+        <label for="prof-password" data-i18n="profile.newPassword">Nova Senha</label>
+        <input type="password" id="prof-password" class="profile-input" placeholder="Deixe em branco para manter a atual" minlength="6">
+      </div>
+    </div>
+
+    <div id="profile-msg" class="profile-message"></div>
+
+    <button type="submit" class="profile-save-btn" id="prof-save-btn" data-i18n="profile.save">Salvar Alterações</button>
+  </form>
+</main>
+
+<!-- ERROR MODAL -->
+<div class="modal-overlay" id="alert-modal">
+  <div class="modal-box modal-box-detail">
+    <div class="modal-header">
+      <div class="detail-header-left">
+        <div class="detail-icon" style="background:rgba(180, 50, 50, 0.1); color: #c94a4a;">⚠️</div>
+        <div>
+          <h3 class="detail-title" id="alert-title" data-i18n="profile.error.title">Atenção</h3>
+        </div>
+      </div>
+      <button class="modal-close" id="alert-close-x">✕</button>
+    </div>
+    <div class="detail-body">
+      <p id="alert-message" style="font-size: 14px; color: var(--texto); line-height: 1.5; margin-bottom: 24px;" data-i18n="profile.error.desc">
+        Sua foto é muito grande. Escolha uma imagem de até 1MB.
+      </p>
+    </div>
+    <div class="detail-footer" style="justify-content: flex-end; display: flex;">
+      <button class="modal-btn-save" id="alert-close-btn" data-i18n="profile.error.close">Entendi</button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="js/perfil.js"></script>
+
+</body>
+</html>

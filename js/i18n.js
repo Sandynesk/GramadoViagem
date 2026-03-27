@@ -3,7 +3,7 @@
 const translations = {
   pt: {
     // Header
-    'header.badge': 'Serra Gaúcha · Roteiro Premium · Para Eu e minha amada',
+    'header.badge': 'Serra Gaúcha · Roteiro Premium',
     'header.title': 'Gramado & <em>Canela</em>',
     'header.subtitle': 'Nosso planejamento · com Prime Gourmet',
 
@@ -160,11 +160,25 @@ const translations = {
     'schedule.prompt.desc': 'Notamos que você tem novos itens marcados como "Vou!" no Planner. Deseja organizá-los em seu cronograma agora?',
     'schedule.prompt.no': 'Não, obrigado',
     'schedule.prompt.yes': 'Sim, importar',
+
+    // Profile
+    'profile.title': 'Editar Perfil',
+    'profile.section.account': 'Informações da Conta',
+    'profile.name': 'Nome',
+    'profile.email': 'E-mail',
+    'profile.date': 'Data da Viagem',
+    'profile.section.security': 'Segurança (Opcional)',
+    'profile.newPassword': 'Nova Senha',
+    'profile.save': 'Salvar Alterações',
+    'profile.avatar.pref': 'Preferencial: Quadrada, máx. 1MB',
+    'profile.error.title': 'Ops! Foto muito grande',
+    'profile.error.desc': 'Para garantir o melhor carregamento do site, por favor escolha uma imagem de até 1MB.',
+    'profile.error.close': 'Entendi',
   },
 
   en: {
     // Header
-    'header.badge': 'Serra Gaúcha · Premium Planner · For me and my beloved',
+    'header.badge': 'Serra Gaúcha · Premium Planner',
     'header.title': 'Gramado & <em>Canela</em>',
     'header.subtitle': 'Our trip planner · with Prime Gourmet',
 
@@ -321,6 +335,20 @@ const translations = {
     'schedule.prompt.desc': 'We noticed you have new items marked as "I\'m in!" in the Planner. Do you want to organize them in your schedule now?',
     'schedule.prompt.no': 'No, thanks',
     'schedule.prompt.yes': 'Yes, import',
+
+    // Profile
+    'profile.title': 'Edit Profile',
+    'profile.section.account': 'Account Information',
+    'profile.name': 'Name',
+    'profile.email': 'Email',
+    'profile.date': 'Trip Date',
+    'profile.section.security': 'Security (Optional)',
+    'profile.newPassword': 'New Password',
+    'profile.save': 'Save Changes',
+    'profile.avatar.pref': 'Preferred: Square, max 1MB',
+    'profile.error.title': 'Oops! Photo too large',
+    'profile.error.desc': 'To ensure the best performance, please choose an image up to 1MB.',
+    'profile.error.close': 'Got it',
   }
 };
 
