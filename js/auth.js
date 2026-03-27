@@ -9,7 +9,8 @@ async function signUp(email, password, name) {
     email,
     password,
     options: {
-      data: { display_name: name || '' }
+      data: { display_name: name || '' },
+      emailRedirectTo: window.location.origin + '/confirm.html'
     }
   });
 
